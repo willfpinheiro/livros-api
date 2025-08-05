@@ -3,7 +3,9 @@ FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
 COPY . .
-RUN ./mvnw clean package -DskipTests
+
+# 🚨 Aqui garantimos que o mvnw tenha permissão de execução
+RUN chmod +x ./mvnw && ./mvnw clean package -DskipTests
 
 # Etapa 2: Imagem final
 FROM eclipse-temurin:21-jdk
