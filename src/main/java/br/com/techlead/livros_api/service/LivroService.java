@@ -19,8 +19,18 @@ public class LivroService {
     private final ModelMapper modelMapper;
 
     public LivroRespostaDTO salvar(LivroDTO dto) {
-        Livro livro = modelMapper.map(dto, Livro.class);
+        Livro livro = new Livro();
+        dtoParalivro(dto, livro);
+
         return modelMapper.map(livroRepository.save(livro), LivroRespostaDTO.class);
+    }
+
+    private static void dtoParalivro(LivroDTO dto, Livro livro) {
+        livro.setTitulo(dto.getTitulo());
+        livro.setIsbn(dto.getIsbn());
+        livro.setPreco(dto.getPreco());
+        livro.setDataPublicacao(dto.getDataPublicacao());
+        livro.setAutorId(dto.getAutorId());
     }
 
     public List<LivroRespostaDTO> listar() {
@@ -40,11 +50,7 @@ public class LivroService {
         Livro livro = livroRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado"));
 
-        livro.setTitulo(dto.getTitulo());
-        livro.setIsbn(dto.getIsbn());
-        livro.setPreco(dto.getPreco());
-        livro.setDataPublicacao(dto.getDataPublicacao());
-        livro.setAutorId(dto.getAutorId());
+        dtoParalivro(dto, livro);
 
         return modelMapper.map(livroRepository.save(livro), LivroRespostaDTO.class);
     }
