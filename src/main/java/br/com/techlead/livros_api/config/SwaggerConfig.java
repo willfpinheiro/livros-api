@@ -2,18 +2,24 @@ package br.com.techlead.livros_api.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 
 @Configuration
 public class SwaggerConfig {
-    private static final String API_TITLE = "Projeto livros-api";
-    private static final String API_DESCRIPTION = "Documentação da API do livros-api";
-    private static final String API_VERSION = "1.0.0";
-
     @Bean
     public OpenAPI openApi() {
-        return new OpenAPI().info(new Info().title(API_TITLE).description(API_DESCRIPTION).version(API_VERSION));
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Projeto livros-api")
+                        .description("Documentação da API do livros-api")
+                        .version("1.0.0"))
+                .servers(List.of(
+                        new Server().url("https://livros-api-production.up.railway.app").description("Servidor Railway")
+                ));
     }
 }
